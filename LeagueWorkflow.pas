@@ -1,6 +1,6 @@
 unit LeagueWorkflow;
 interface
-  uses Models, FuncModel, StdCtrls, ClubWorkflow, RegExpr, UnitLog;
+  uses Models, FuncModel, StdCtrls, ClubWorkflow, PlayerWorkflow, RegExpr, UnitLog;
   
   procedure lgShowInBox(database: PModel; lb: TListBox);
   procedure lgAdd(var database: PModel; name: string);
@@ -72,7 +72,22 @@ implementation
   end;
 
   { lgDelete }
-  procedure lgDelete(var database: PModel; index: integer); begin
+  procedure lgDelete(var database: PModel; index: integer); var
+    lg: League;
+    cb: Club;
+  begin
+    lg := get(database, index)^ as League;
+    if (lg.clubs <> nil) then begin
+      eachr(lg.clubs, CBDelDisp.create);
+      cb := lg.clubs^ as Club;
+      l('Disposed club at lgwf ' + cb.str());
+
+      if (false) and (cb.players <> nil) then begin
+        eachr(cb.players, PlDelDisp.Create);
+        l('Disposed player at lgwf ' + (cb.players^ as Player).str());
+        dispose(cb.players); 
+      end;
+    end;
     delete(database, index);
   end;
   
@@ -80,7 +95,7 @@ implementation
   procedure addTestData(var database: PModel); var
     bundesliga: League;
     pclubs: PModel;
-    pplayers: PModel;
+    pplayers: PModel;         
   begin
     bundesliga := League.new('Bundesliga');
 

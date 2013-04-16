@@ -106,7 +106,14 @@ end;
 procedure updateView(); var
   focusLb: TListBox;
 begin
-  if (database = nil) then exit;
+  if (database = nil) then begin
+    with FMain do begin
+      LBLeague.Clear();
+      LBClub.Clear();
+      LBPlayer.Clear();
+    end;
+    exit;
+  end;
 
   lgShowInBox(database, FMain.LBLeague);
   if (not empty(database)) then begin
@@ -177,9 +184,9 @@ end;
 
 procedure actionAdd(); begin    
   case selCat of
-    0: lgAdd(database, '');
-    1: cbAdd(selLg(), '');
-    2: plAdd(selCb(), '');
+    0: lgAdd(database, '<name>');
+    1: cbAdd(selLg(), '<name>');
+    2: plAdd(selCb(), '<name>');
   end;
   updateView();
   actionDown();

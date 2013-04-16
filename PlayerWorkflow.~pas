@@ -1,11 +1,16 @@
 unit PlayerWorkflow;
 interface
-  uses Models, FuncModel, StdCtrls, ClubWorkflow, RegExpr, UnitLog;
+  uses Models, FuncModel, StdCtrls, RegExpr, UnitLog;
+  
+  type
+    PlDelDisp = class(EachDispatcher)
+      procedure dispatch(pins: PModel); override;
+    end;
   
   procedure plShowInBox(start: PModel; lb: TListBox);
   function plSearch(start: PModel; term: string): PModel;
   procedure plAdd(club: Club; name: string);
-  procedure plDelete(start: PModel; index: integer);
+  procedure plDelete(var start: PModel; index: integer);
     
 implementation
 
@@ -17,6 +22,12 @@ implementation
       function dispatch(pins: PModel): string; override;
     end;
 
+  procedure PlDelDisp.dispatch(pins: PModel); begin
+    if (pins^.n <> nil) then begin
+      l('Disposed player at plwf' + (pins^.n^ as Player).str());
+      dispose(pins^.n);
+    end;
+  end;
 
   { plSearch }
   function SearchDisp.dispatch(pins: PModel): string; begin
@@ -54,7 +65,6 @@ implementation
     end else 
       add(last(club.players), pl);
   end;
-
 
   { plDelete }
   procedure plDelete(var start: PModel; index: integer); begin

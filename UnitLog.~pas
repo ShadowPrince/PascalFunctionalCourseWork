@@ -33,6 +33,8 @@ uses Unit1;
 
 {$R *.dfm}
 
+// @TODO: time 
+
 procedure log(lvl: string; str: string); begin
   FLog.MLog.Lines.Append(
     '[' + lvl + '] (' 

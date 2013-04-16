@@ -1,9 +1,9 @@
 unit ClubWorkflow;
 
 interface
-  uses FuncModel, Models, StdCtrls, Dialogs;
+  uses FuncModel, Models, StdCtrls, Dialogs, UnitLog, PlayerWorkflow;
   type
-    CBDelCallback = class(EachDispatcher)
+    CBDelDisp = class(EachDispatcher)
       procedure dispatch(pins: PModel); override;
     end;
 
@@ -21,8 +21,22 @@ implementation
       function dispatch(pins: PModel): string; override;
     end;
 
-  procedure CBDelCallback.dispatch(pins: PModel); begin
-
+  procedure CBDelDisp.dispatch(pins: PModel); var
+    cb: Club;
+    cbc: Club;
+  begin
+    cbc := pins^ as Club;
+    if (cbc.players <> nil) then begin
+      eachr(cbc.players, PlDelDisp.Create);
+      l('Disposed player at clwf ' + (cbc.players^ as Player).str());
+      dispose(cbc.players);
+    end;
+    if (pins^.n <> nil) then begin
+      cb := pins^.n^ as Club;
+      l('Disposed club at clubwf ' + cb.str);
+  
+      dispose(pins^.n);
+    end;
   end;
 
   { cbSearch }
@@ -63,6 +77,11 @@ implementation
 
   { cbDelete }
   procedure cbDelete(var start: PModel; index: integer); begin
+    if ((get(start, index)^ as Club).players <> nil) then begin
+      eachr((get(start, index)^ as Club).players, PlDelDisp.Create);
+      l('Disposed player at clwf ' + (((get(start, index)^ as Club).players^ as Player).str()));
+      delete((get(start, index)^ as Club).players, 0);
+    end;
     delete(start, index);
   end;
 end.

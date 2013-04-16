@@ -7,21 +7,21 @@ object FrShow: TFrShow
   object Label1: TLabel
     Left = 0
     Top = 8
-    Width = 57
-    Height = 17
+    Width = 32
+    Height = 13
     Caption = 'Label1'
   end
   object Label2: TLabel
     Left = 0
     Top = 32
-    Width = 57
+    Width = 32
     Height = 13
     Caption = 'Label2'
   end
   object Label3: TLabel
     Left = 0
     Top = 56
-    Width = 57
+    Width = 32
     Height = 13
     Caption = 'Label3'
   end
