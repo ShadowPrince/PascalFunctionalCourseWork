@@ -31,7 +31,7 @@ procedure foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc);
 procedure foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc);
 
 
-procedure add(p: PModel; ins: PointerModel);
+procedure add(var p: PModel; ins: PointerModel);
 procedure delete(var start: PModel; index: integer);
 function search(database: PModel; term: string; disp: SearchDispatcher): PModel;
 
@@ -53,11 +53,14 @@ type
   end;
   
 { Each implementation }
-procedure each(start: PModel; dispatcher: EachDispatcher); begin
+procedure each(start: PModel; dispatcher: EachDispatcher); var
+  p: PModel;
+begin
   while (start <> nil) do begin
-    dispatcher.dispatch(start);
-
+    p := start;
     start := start^.n;
+
+    dispatcher.dispatch(p);
   end;
 end;
 
@@ -97,15 +100,13 @@ begin
     start := start^.n;
   end;
 
-  
-  
   while (p <> nil) do begin
     dispatcher.dispatch(p, acc);
     p := p^.p;
   end;
 end;
 
-procedure add(p: PModel; ins: PointerModel); var
+procedure add(var p: PModel; ins: PointerModel); var
   ap, np: PModel;
 begin
   np := nil;

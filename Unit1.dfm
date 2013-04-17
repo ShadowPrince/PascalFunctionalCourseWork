@@ -1,6 +1,6 @@
 object FMain: TFMain
-  Left = 5
-  Top = 120
+  Left = 50
+  Top = 94
   Width = 558
   Height = 137
   Caption = 'FMain'

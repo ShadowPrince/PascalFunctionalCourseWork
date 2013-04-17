@@ -76,18 +76,9 @@ implementation
     lg: League;
     cb: Club;
   begin
-    lg := get(database, index)^ as League;
-    if (lg.clubs <> nil) then begin
-      eachr(lg.clubs, CBDelDisp.create);
-      cb := lg.clubs^ as Club;
-      l('Disposed club at lgwf ' + cb.str());
-
-      if (false) and (cb.players <> nil) then begin
-        eachr(cb.players, PlDelDisp.Create);
-        l('Disposed player at lgwf ' + (cb.players^ as Player).str());
-        dispose(cb.players); 
-      end;
-    end;
+    //lg := get(database, index)^ as League;
+    each((get(database, index)^ as League).clubs, CBDelDisp.Create);
+    
     delete(database, index);
   end;
   

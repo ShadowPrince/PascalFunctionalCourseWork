@@ -23,10 +23,8 @@ implementation
     end;
 
   procedure PlDelDisp.dispatch(pins: PModel); begin
-    if (pins^.n <> nil) then begin
-      l('Disposed player at plwf ' + (pins^.n^ as Player).str());
-      dispose(pins^.n);
-    end;
+    l('Disposed player at plwf ' + (pins^ as Player).str());
+    dispose(pins);
   end;
 
   { plSearch }
@@ -68,6 +66,6 @@ implementation
 
   { plDelete }
   procedure plDelete(var start: PModel; index: integer); begin
-    delete(start, index);
+    PlDelDisp.Create().dispatch(get(start, index));
   end;
 end.

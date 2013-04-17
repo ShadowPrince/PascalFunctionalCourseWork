@@ -1,5 +1,5 @@
 object FHelp: TFHelp
-  Left = 432
+  Left = 476
   Top = 179
   Width = 320
   Height = 257

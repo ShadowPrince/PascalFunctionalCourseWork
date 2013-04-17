@@ -7,23 +7,23 @@ File_4=SourceModule,'Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\List.pas'
 File_5=SourceModule,'Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ListTypes.pas',0,1,1,5,4,0,0
 
 [Modules]
-Module0=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas
+Module0=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ClubWorkflow.pas
 Module1=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas
-Module2=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Project2.dpr
-Module3=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas
-Module4=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitLog.pas
+Module2=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitLog.pas
+Module3=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas
+Module4=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas
 Module5=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\CLI.pas
 Module6=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Models.pas
 Module7=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\FuncModel.pas
-Module8=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ClubWorkflow.pas
-Module9=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\LeagueWorkflow.pas
-Module10=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\PlayerWorkflow.pas
+Module8=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\LeagueWorkflow.pas
+Module9=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\PlayerWorkflow.pas
+Module10=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Project2.dpr
 Count=11
 EditWindowCount=1
 
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas]
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ClubWorkflow.pas]
 ModuleType=SourceModule
-FormState=1
+FormState=0
 FormOnTop=0
 
 [Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas]
@@ -31,17 +31,17 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=1
 
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Project2.dpr]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas]
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitLog.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=1
 
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitLog.pas]
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=1
+
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=1
@@ -61,11 +61,6 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ClubWorkflow.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
 [Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\LeagueWorkflow.pas]
 ModuleType=SourceModule
 FormState=0
@@ -76,13 +71,18 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Project2.dpr]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
 [Z:\home\sp\.wpf\Borland\Delphi7\Bin\ProjectGroup1.bpg]
 FormState=0
 FormOnTop=0
 
 [EditWindow0]
 ViewCount=11
-CurrentView=10
+CurrentView=5
 View0=0
 View1=1
 View2=2
@@ -99,21 +99,21 @@ MessageView=MessageView@EditWindow0
 Create=1
 Visible=1
 State=0
-Left=199
-Top=100
-Width=844
-Height=525
+Left=253
+Top=123
+Width=789
+Height=452
 MaxLeft=0
 MaxTop=0
-ClientWidth=836
-ClientHeight=498
+ClientWidth=781
+ClientHeight=425
 LeftPanelSize=0
 LeftPanelClients=CodeExplorer@EditWindow0
 LeftPanelData=00000400010000000C000000436F64654578706C6F726572000000000000000000000000000000000001000000000000000000000000FFFFFFFF
 RightPanelSize=0
-BottomPanelSize=85
+BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=000004000000000044030000000000000255000000000000000100000000000000000000000001000000004403000000000000010000000044030000000000000100000000440300000000000001000000004403000000000000010000000044030000000000000100000000440300000000000001000000004403000000000000010000000044030000000000000100000000440300000000000001000000004403000000000000010000000044030000000000000100000000440300000B0000004D65737361676556696577FFFFFFFF
+BottomPanelData=00000400010000000B0000004D65737361676556696577000000000000000000000000000000000001000000000000000000000000FFFFFFFF
 
 [View0]
 Module=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas
@@ -131,16 +131,16 @@ LeftCol=1
 
 [View2]
 Module=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\PlayerWorkflow.pas
-CursorX=83
-CursorY=22
-TopLine=7
+CursorX=50
+CursorY=69
+TopLine=57
 LeftCol=1
 
 [View3]
 Module=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\LeagueWorkflow.pas
-CursorX=31
-CursorY=83
-TopLine=70
+CursorX=76
+CursorY=72
+TopLine=64
 LeftCol=1
 
 [View4]
@@ -152,16 +152,16 @@ LeftCol=1
 
 [View5]
 Module=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ClubWorkflow.pas
-CursorX=34
-CursorY=82
-TopLine=70
+CursorX=5
+CursorY=72
+TopLine=55
 LeftCol=1
 
 [View6]
 Module=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\FuncModel.pas
-CursorX=1
-CursorY=220
-TopLine=217
+CursorX=59
+CursorY=27
+TopLine=10
 LeftCol=1
 
 [View7]
@@ -187,8 +187,8 @@ LeftCol=1
 
 [View10]
 Module=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas
-CursorX=17
-CursorY=94
+CursorX=32
+CursorY=104
 TopLine=91
 LeftCol=1
 
@@ -247,8 +247,8 @@ ClientHeight=60
 Create=1
 Visible=1
 State=0
-Left=15
-Top=307
+Left=64
+Top=303
 Width=190
 Height=301
 MaxLeft=0
@@ -298,15 +298,15 @@ Dockable=1
 
 [MessageView@EditWindow0]
 Create=1
-Visible=1
+Visible=0
 State=0
 Left=12
 Top=0
-Width=824
+Width=769
 Height=85
 MaxLeft=0
 MaxTop=0
-ClientWidth=824
+ClientWidth=769
 ClientHeight=85
 TBDockHeight=85
 LRDockWidth=443
