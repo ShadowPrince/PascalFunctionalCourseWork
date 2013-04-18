@@ -106,51 +106,59 @@ end;
 procedure updateView(); var
   focusLb: TListBox;
 begin
-  if (database = nil) then begin
-    with FMain do begin
-      LBLeague.Clear();
-      LBClub.Clear();
-      LBPlayer.Clear();
-    end;
-    exit;
-  end;
-
-  lgShowInBox(database, FMain.LBLeague);
-  if (not empty(database)) then begin
-    cbShowInBox(selLg().clubs, FMain.LBClub);
-  end else FMain.LBClub.Clear();
-
-  if (not empty(selCbPointer())) then begin
-    plShowInBox(selCb().players, FMain.LBPlayer);
-  end else FMain.LBPlayer.Clear();
-
+  // clear interface
   with FMain do begin
-    LBLeague.ItemIndex := selLgNum;
-    LBCLub.ItemIndex := selCbNum;
-    LBPlayer.ItemIndex := selPlNum;
-
+    LBLeague.Clear();
+    LBClub.Clear();
+    LBPlayer.Clear();
+     
     LBLeague.Color := clWindow;
     LBCLub.Color := clWindow;
     LBPlayer.Color := clWindow;
+
+    FrShow.Visible := false;
   end;
   
+  // focus pane
   case selCat of
     0: focusLb := FMain.LBLeague;
     1: focusLb := FMain.LBClub;
     2: focusLb := FMain.LBPlayer;
   end;
-  focusLb.Color := clScrollBar;
+  focusLb.Color := clScrollBar; 
+
+  if (database = nil) then 
+    exit;
+
+  // push data
+  if (selLgPointer() <> nil) then begin
+    lgShowInBox(database, FMain.LBLeague);
+    cbShowInBox(selLg().clubs, FMain.LBClub);
+    if (selCbPointer() <> nil) then begin
+      plShowInBox(selCb().players, FMain.LBPlayer);
+    end;
+  end;
+
+  // set cursor
+  FMain.LBLeague.ItemIndex := selLgNum;
+  FMain.LBClub.ItemIndex := selCbNum;
+  FMain.LBPlayer.ItemIndex := selPlNum;
+  
+  // show info of selected object
   FMain.FrShow.show(selCat, selPointer());
   
+  // log 
   l(
     'View updated: lg=' + 
     intToStr(selLgNum) + 
     ', cl=' + 
-    intToStr(selCbNum) + 
-    ', pl=' + 
-    intToStr(selPlNum) +
+    intToStr(selCbNum) +
     '; cat=' +
-    intToStr(selCat)
+    intToStr(selCat) +
+    '. Current pointer ' + 
+    intToStr(integer(selPointer())) +
+    ', Sel pointer ' +
+    intToStr(integer(selPointer()))
   );
 end;
 
@@ -189,7 +197,7 @@ procedure actionAdd(); begin
     2: plAdd(selCb(), '<name>');
   end;
   updateView();
-  actionDown();
+  actionDown(); // @TODO: move to last
 
   FMain.FocusControl(FMain.FrShow.Edit1);
 end;
@@ -265,14 +273,20 @@ begin
     0: begin
       v := @selLgNum;
       max := count(database);
-    end;
+    end;    
     1: begin
       v := @selCbNum;
-      max := count(selLg().clubs);
+      if (selLgPointer() <> nil) then
+        max := count(selLg().clubs)
+      else
+        max := 0;
     end;
     2: begin
       v := @selPlNum;
-      max := count(selCb().players);
+      if (selCbPointer() <> nil) then
+        max := count(selCb().players)
+      else
+        max := 0;
     end;
   end;
 
@@ -286,6 +300,7 @@ procedure actionUp(); var
   v: ^integer;
   max: integer;
 begin
+  // @TODO: refactor
   case selCat of
     0: begin
       v := @selLgNum;
@@ -293,11 +308,17 @@ begin
     end;
     1: begin
       v := @selCbNum;
-      max := count(selLg().clubs);
+      if (selLgPointer() <> nil) then
+        max := count(selLg().clubs)
+      else
+        max := 0;
     end;
     2: begin
       v := @selPlNum;
-      max := count(selCb().players);
+      if (selCbPointer() <> nil) then
+        max := count(selCb().players)
+      else
+        max := 0;
     end;
   end;
 
@@ -339,8 +360,9 @@ end;
 { create }
 procedure TFMain.FormCreate(Sender: TObject); begin
   KBHook := SetWindowsHookEx(WH_KEYBOARD, @keyboardHook, HInstance, GetCurrentThreadId());
+  // TFNHookProc
   // @TODO: if called later strange things happen
-  addTestData(database);
+  //addTestData(database);
 end;
 
 { exec string command }

@@ -8,15 +8,15 @@ File_5=SourceModule,'Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ListTypes
 
 [Modules]
 Module0=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ClubWorkflow.pas
-Module1=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas
-Module2=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas
-Module3=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitLog.pas
-Module4=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas
-Module5=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\LeagueWorkflow.pas
-Module6=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\PlayerWorkflow.pas
+Module1=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas
+Module2=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitLog.pas
+Module3=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas
+Module4=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas
+Module5=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\CLI.pas
+Module6=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Models.pas
 Module7=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\FuncModel.pas
-Module8=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Models.pas
-Module9=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\CLI.pas
+Module8=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\LeagueWorkflow.pas
+Module9=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\PlayerWorkflow.pas
 Module10=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Project2.dpr
 Count=11
 EditWindowCount=1
@@ -26,12 +26,7 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=1
-
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas]
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=1
@@ -41,10 +36,30 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=1
 
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas]
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitShow.pas]
 ModuleType=SourceModule
 FormState=1
 FormOnTop=1
+
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\UnitHelp.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=1
+
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\CLI.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Models.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\FuncModel.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
 
 [Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\LeagueWorkflow.pas]
 ModuleType=SourceModule
@@ -56,27 +71,12 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\FuncModel.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Models.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\CLI.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
 [Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Project2.dpr]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[Z:\home\sp\ProjectGroup1.bpg]
+[Z:\home\sp\.wpf\Borland\Delphi7\Bin\ProjectGroup1.bpg]
 FormState=0
 FormOnTop=0
 
@@ -99,21 +99,21 @@ MessageView=MessageView@EditWindow0
 Create=1
 Visible=1
 State=0
-Left=234
-Top=92
-Width=810
-Height=530
+Left=253
+Top=123
+Width=789
+Height=452
 MaxLeft=0
 MaxTop=0
-ClientWidth=802
-ClientHeight=503
+ClientWidth=781
+ClientHeight=425
 LeftPanelSize=0
 LeftPanelClients=CodeExplorer@EditWindow0
 LeftPanelData=00000400010000000C000000436F64654578706C6F726572000000000000000000000000000000000001000000000000000000000000FFFFFFFF
 RightPanelSize=0
 BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D65737361676556696577220300000000000002550000000000000001000000000000000000000000010000000022030000000000000100000000220300000000000001000000002203000000000000FFFFFFFF
+BottomPanelData=00000400010000000B0000004D65737361676556696577000000000000000000000000000000000001000000000000000000000000FFFFFFFF
 
 [View0]
 Module=Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\Unit1.pas
@@ -247,7 +247,7 @@ ClientHeight=60
 Create=1
 Visible=1
 State=0
-Left=62
+Left=64
 Top=303
 Width=190
 Height=301
@@ -302,11 +302,11 @@ Visible=0
 State=0
 Left=12
 Top=0
-Width=790
+Width=769
 Height=85
 MaxLeft=0
 MaxTop=0
-ClientWidth=790
+ClientWidth=769
 ClientHeight=85
 TBDockHeight=85
 LRDockWidth=443

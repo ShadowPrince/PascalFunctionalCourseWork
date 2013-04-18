@@ -5,24 +5,19 @@ uses
   Dialogs, StdCtrls, Models, RegExpr, UnitLog;
 
 type
-  SearchDispatcher = class(PointerModel)
-    function dispatch(pins: PModel): string; virtual; abstract; 
-  end;
-  MapDispatcher = class
-    function dispatch(pins: PModel): PModel; virtual; abstract;
-  end;
-  EachDispatcher = class
-    procedure dispatch(pins: PModel); virtual; abstract;
-  end;
+  SearchDispatcher = function(pins: PModel): string;
+  MapDispatcher = function(pins: PModel): PModel;
+  EachDispatcher = procedure(pins: PModel); 
+  
   FoldAcc = record // record for storing values trought fold dispatchers
     int: array[0..10] of integer;
     str: array[0..10] of string;
     p: array[0..10] of PModel;
+    pointer: array[0..10] of Pointer;
     tobject: array[0..10] of TObject;
   end;
-  FoldDispatcher = class
-    procedure dispatch(ins: PModel; var acc: FoldAcc); virtual; abstract;
-  end;
+  FoldDispatcher = procedure(ins: PModel; var acc: FoldAcc);
+  FilterDispatcher = function(ins: PModel): boolean; 
 
 procedure each(start: PModel; dispatcher: EachDispatcher);
 procedure eachr(start: PModel; dispatcher: EachDispatcher);
@@ -34,6 +29,7 @@ procedure foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc);
 procedure add(var p: PModel; ins: PointerModel);
 procedure delete(var start: PModel; index: integer);
 function search(database: PModel; term: string; disp: SearchDispatcher): PModel;
+function filter(start: PModel; disp: FilterDispatcher): PModel;
 
 function get(start: PModel; i: integer): PModel;
 function last(start: PModel): PModel;
@@ -42,16 +38,10 @@ function count(start: PModel): integer;
 function empty(start: PModel): boolean;
 
 function pointerPos(start: PModel; needle: PModel): integer;
-
-
+                         
 { IMPLEMENTATION }
 implementation
-             
-type
-  SearchDisp = class(FoldDispatcher)
-    procedure dispatch(pins: PModel; var acc: FoldAcc); override;
-  end;
-  
+              
 { Each implementation }
 procedure each(start: PModel; dispatcher: EachDispatcher); var
   p: PModel;
@@ -60,7 +50,7 @@ begin
     p := start;
     start := start^.n;
 
-    dispatcher.dispatch(p);
+    dispatcher(p);
   end;
 end;
 
@@ -75,7 +65,7 @@ begin
   end;
 
   while (p <> nil) do begin
-    dispatcher.dispatch(p);
+    dispatcher(p);
     p := p^.p;
   end;
 end;
@@ -83,7 +73,7 @@ end;
 { Left fold implementation }
 procedure foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc); begin
   while (start <> nil) do begin
-    dispatcher.dispatch(start, acc);
+    dispatcher(start, acc);
     start := start^.n;
   end;
 end;
@@ -101,7 +91,7 @@ begin
   end;
 
   while (p <> nil) do begin
-    dispatcher.dispatch(p, acc);
+    dispatcher(p, acc);
     p := p^.p;
   end;
 end;
@@ -109,26 +99,21 @@ end;
 procedure add(var p: PModel; ins: PointerModel); var
   ap, np: PModel;
 begin
-  np := nil;
-  
+  ins.n := nil;
+  ins.p := nil;
+    
   new(ap);
   ap^ := ins;
-  ap^.p := p;
-  
+
   if (p = nil) then begin
     new(p);
     p^ := ins;
-    
-  end else if (p^.n = nil) then begin
-    p^.n := ap;
-    ap^.n := nil;
   end else begin
-    np := p^.n;
+    np := last(p); // get last element
+    np^.n := ap; // point last next to new 
+    ap^.p := np; // poins new prev to last
+  end;    
 
-    p^.n := ap;
-    ap^.p := p;
-    ap^.n := np;
-  end;
 end;
 
 procedure delete(var start: PModel; index: integer); var
@@ -141,7 +126,7 @@ begin
   end else if (p^.p = nil) and (p^.n <> nil) then begin // first
     start := p^.n; // make next as start
     start.p := nil; // and nil prev (pointer to rec)
-  end else if (p^.p <> nil) then begin // last
+  end else if (p^.p <> nil) and (p^.n = nil) then begin // last
     p^.p^.n := nil; // nil pointer to rec
   end else begin // only one
     start := nil; // nil start
@@ -184,14 +169,16 @@ function pointerPos(start: PModel; needle: PModel): integer; begin
   end;
 end;
 
-procedure SearchDisp.dispatch(pins: PModel; var acc: FoldAcc); var
+procedure searchDisp(pins: PModel; var acc: FoldAcc); var
   re: TRegExpr;
   res: SearchResult;
   resp: PModel;
+  disp: SearchDispatcher;
 begin
   re := TRegExpr.Create;
 
-  re.InputString := (acc.p[1]^ as SearchDispatcher).dispatch(pins);
+  disp := acc.pointer[0];
+  re.InputString := disp(pins);
   re.Expression := acc.str[0];
   if (re.Exec) then begin
     res := SearchResult.new(pins);
@@ -210,13 +197,24 @@ function search(database: PModel; term: string; disp: SearchDispatcher): PModel;
   acc: FoldAcc;
 begin
   acc.p[0] := nil;
-  new(acc.p[1]);
-  acc.p[1]^ := disp;
+  acc.pointer[0] := @disp;
   acc.str[0] := term;
 
-  foldl(database, SearchDisp.Create, acc);
+  foldl(database, @searchDisp, acc);
   result := acc.p[0];                      
 end;
 
-end.
+function filter(start: PModel; disp: FilterDispatcher): PModel; var
+  p: PModel;
+begin
+  while (start <> nil) do begin
+    p := start;
+    start := start^.n;
 
+    if (disp(p)) then begin
+      add(result, SearchResult.new(p));
+    end;
+  end;
+end;
+
+end.

@@ -1,6 +1,6 @@
 object FHelp: TFHelp
-  Left = 476
-  Top = 179
+  Left = 7
+  Top = 333
   Width = 320
   Height = 257
   Caption = 'FHelp'

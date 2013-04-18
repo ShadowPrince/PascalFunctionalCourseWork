@@ -2,45 +2,36 @@ unit ClubWorkflow;
 
 interface
   uses FuncModel, Models, StdCtrls, Dialogs, UnitLog, PlayerWorkflow;
-  type
-    CBDelDisp = class(EachDispatcher)
-      procedure dispatch(pins: PModel); override;
-    end;
-
+                                        
+  procedure CBDelDisp(pins: PModel); 
+  
   procedure cbShowInBox(start: PModel; lb: TListBox);
   procedure cbAdd(lg: League; name: string);
   procedure cbDelete(var start: PModel; index: integer);
   function cbSearch(start: PModel; term: string): PModel;
 
 implementation
-  type
-    ShowDisp = class(FoldDispatcher) 
-      procedure dispatch(pins: PModel; var acc: FoldAcc); override;
-    end;
-    SearchDisp = class(SearchDispatcher)
-      function dispatch(pins: PModel): string; override;
-    end;
 
-  procedure CBDelDisp.dispatch(pins: PModel); var
+  procedure CBDelDisp(pins: PModel); var
     cb: Club;
   begin
     cb := pins^ as Club;
-    l('Disposed club at cbwf ' + cb.str());
-    each(cb.players, PlDelDisp.Create());
+    each(cb.players, @PlDelDisp);
     
+    l('Disposed club at cbwf ' + cb.str());
     dispose(pins);
   end;
 
   { cbSearch }
-  function SearchDisp.dispatch(pins: PModel): string; begin
+  function SearchDisp(pins: PModel): string; begin
     result := (pins^ as Club).name;
   end;
   function cbSearch(start: PModel; term: string): PModel; begin
-    result := search(start, term, SearchDisp.Create);
+    result := search(start, term, @SearchDisp);
   end;
   
   { cbShow }
-  procedure ShowDisp.dispatch(pins: PModel; var acc: FoldAcc); begin
+  procedure ShowDisp(pins: PModel; var acc: FoldAcc); begin
     (acc.tobject[0] as TListBox).Items.Add(
       (pins^ as Club).str()
     );
@@ -50,7 +41,7 @@ implementation
   begin
     lb.Clear();
     acc.tobject[0] := lb;
-    foldl(start, ShowDisp.Create, acc);
+    foldl(start, @ShowDisp, acc);
   end;
 
   { cbAdd }
@@ -69,7 +60,9 @@ implementation
 
   { cbDelete }
   procedure cbDelete(var start: PModel; index: integer); begin
-    CBDelDisp.Create().dispatch(get(start, index));
-    get(start, index);
+    each((get(start, index)^ as Club).players, @PlDelDisp);
+
+    l('Deleted cb ' + (get(start, index)^ as Club).str() + ' at cbwf');
+    delete(start, index);
   end;
 end.

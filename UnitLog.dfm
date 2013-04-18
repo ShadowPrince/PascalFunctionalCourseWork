@@ -1,6 +1,6 @@
 object FLog: TFLog
-  Left = 128
-  Top = 316
+  Left = 11
+  Top = 273
   Width = 524
   Height = 281
   Caption = 'FLog'
