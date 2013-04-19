@@ -11,21 +11,23 @@ interface
 
 implementation
   { lgSearch }
-  function SearchDisp(pins: PModel): string; begin
-    result := (pins^ as League).name;
-  end;
-  function lgSearch(database: PModel; term: string): PModel; begin
+  function lgSearch(database: PModel; term: string): PModel; var
+    x: boolean;
+    function SearchDisp(pins: PModel): string; begin
+      result := (pins^ as League).name;
+    end;
+  begin
     result := search(database, term, @SearchDisp);
   end;
    
   { lgShowListInBox }
-  procedure ShowDisp(pins: PModel; var acc: FoldAcc); begin
-    (acc.tobject[0] as TListBox).Items.Append(
-      (pins^ as League).str()
-    );
-    
-  end;
-  procedure lgShowInBox(database: PModel; lb: TListBox); var
+  procedure lgShowInBox(database: PModel; lb: TListBox);
+    procedure ShowDisp(pins: PModel; var acc: FoldAcc); begin
+      (acc.tobject[0] as TListBox).Items.Append(
+        (pins^ as League).str()
+      );
+    end;
+  var
     acc: FoldAcc;
   begin
     lb.Clear();
@@ -42,12 +44,13 @@ implementation
   end;
 
   { lgDrop }
-  procedure DropDisp(pins: PModel); begin
-    if (pins^.n <> nil) then begin
-      dispose(pins^.n);
+  procedure lgDrop(var database: PModel);
+    procedure DropDisp(pins: PModel); begin
+      if (pins^.n <> nil) then begin
+        dispose(pins^.n);
+      end;
     end;
-  end;
-  procedure lgDrop(var database: PModel); begin
+  begin
     eachr(database, @DropDisp);
     dispose(database);
     database := nil;

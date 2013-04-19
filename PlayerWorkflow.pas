@@ -14,23 +14,23 @@ implementation
     dispose(pins);
   end;
 
-  { plSearch }
-  function SearchDisp(pins: PModel): string; begin
-    result := (pins^ as Player).name;
-  end;
-  function plSearch(start: PModel; term: string): PModel; begin
+      { plSearch }
+  function plSearch(start: PModel; term: string): PModel;
+    function SearchDisp(pins: PModel): string; begin
+      result := (pins^ as Player).name;
+    end;
+  begin
     result := search(start, term, @SearchDisp);
   end;
    
   { plShowListInBox }
-  procedure ShowDisp(pins: PModel; var acc: FoldAcc); begin
-    (acc.tobject[0] as TListBox).Items.Append(
-      (pins^ as Player).str()
-    );
-    
-  end;
-  procedure plShowInBox(start: PModel; lb: TListBox); var
+  procedure plShowInBox(start: PModel; lb: TListBox); var 
     acc: FoldAcc;
+    procedure ShowDisp(pins: PModel; var acc: FoldAcc); begin
+      (acc.tobject[0] as TListBox).Items.Append(
+        (pins^ as Player).str()
+      );
+    end;
   begin
     lb.Clear();
     acc.tobject[0] := lb;

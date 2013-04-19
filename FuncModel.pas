@@ -8,6 +8,7 @@ type
   SearchDispatcher = function(pins: PModel): string;
   MapDispatcher = function(pins: PModel): PModel;
   EachDispatcher = procedure(pins: PModel); 
+  PairsDispatcher = procedure(p1: PModel; p2: PModel);
   
   FoldAcc = record // record for storing values trought fold dispatchers
     int: array[0..10] of integer;
@@ -25,19 +26,21 @@ procedure eachr(start: PModel; dispatcher: EachDispatcher);
 procedure foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc);
 procedure foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc);
 
-
 procedure add(var p: PModel; ins: PointerModel);
-procedure delete(var start: PModel; index: integer);
+procedure delete(var start: PModel; index: integer); overload;
+procedure delete(var start: PModel; p: PModel); overload;
 function search(database: PModel; term: string; disp: SearchDispatcher): PModel;
 function filter(start: PModel; disp: FilterDispatcher): PModel;
+procedure pairs(start: PModel; disp: PairsDispatcher);
 
 function get(start: PModel; i: integer): PModel;
 function last(start: PModel): PModel;
 
 function count(start: PModel): integer;
 function empty(start: PModel): boolean;
+function reverse(start: PModel): PModel;
 
-function pointerPos(start: PModel; needle: PModel): integer;
+function pos(start: PModel; needle: PModel): integer; overload;
                          
 { IMPLEMENTATION }
 implementation
@@ -46,7 +49,7 @@ implementation
 procedure each(start: PModel; dispatcher: EachDispatcher); var
   p: PModel;
 begin
-  while (start <> nil) do begin
+  while (start <> nil) do begin  // @CYCLE
     p := start;
     start := start^.n;
 
@@ -58,41 +61,39 @@ end;
 procedure eachr(start: PModel; dispatcher: EachDispatcher); var
   p: PModel;
 begin
-  p := nil;
-  while (start <> nil) do begin
-    p := start;
-    start := start^.n;
-  end;
-
-  while (p <> nil) do begin
-    dispatcher(p);
-    p := p^.p;
-  end;
+  each(reverse(start), dispatcher);
 end;
 
 { Left fold implementation }
-procedure foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc); begin
-  while (start <> nil) do begin
-    dispatcher(start, acc);
+procedure foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc); var
+  p: PModel;
+begin
+  while (start <> nil) do begin // @CYCLE
+    p := start;
     start := start^.n;
+    
+    dispatcher(p, acc);
   end;
 end;
 
 { Right fold implementation }
 procedure foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc); var
   p: PModel;
-  x: string;
 begin
-  x := acc.str[0];
-  p := nil;
-  while (start <> nil) do begin
-    p := start;
-    start := start^.n;
-  end;
+  foldl(reverse(start), dispatcher, acc);
+end;
 
-  while (p <> nil) do begin
-    dispatcher(p, acc);
-    p := p^.p;
+{ Pairs }
+procedure pairs(start: PModel; disp: PairsDispatcher); var
+  p1, p2: PModel;
+begin
+  while (start <> nil) do begin // @CYCLE
+    p2 := start;
+    p1 := p2^.p;
+    
+    start := start^.n;
+
+    disp(p1, p2);
   end;
 end;
 
@@ -116,7 +117,7 @@ begin
 
 end;
 
-procedure delete(var start: PModel; index: integer); var
+procedure delete(var start: PModel; index: integer); overload; var
   p: PModel;
 begin      
   p := get(start, index);
@@ -134,13 +135,40 @@ begin
   dispose(p);
 end;
 
+procedure delete(var start: PModel; p: PModel); overload; 
+begin      
+  if (p^.p <> nil) and (p^.n <> nil) then begin // middle
+    p^.p^.n := p^.n; // drop middle element
+    p^.n^.p := p^.p;
+  end else if (p^.p = nil) and (p^.n <> nil) then begin // first
+    start := p^.n; // make next as start
+    start.p := nil; // and nil prev (pointer to rec)
+  end else if (p^.p <> nil) and (p^.n = nil) then begin // last
+    p^.p^.n := nil; // nil pointer to rec
+  end else begin // only one
+    start := nil; // nil start
+  end;
+  dispose(p);
+end;
+
+function reverse(start: PModel): PModel; var
+  acc: FoldAcc;
+  procedure disp(p: PModel; var acc: FoldAcc); begin
+    add(acc.p[0], p^);
+  end;
+begin
+  result := nil;
+  acc.p[0] := @result;
+  foldl(last(start), @disp, acc);
+end;
+
 function last(start: PModel): PModel; begin
   result := get(start, -1);
 end;
 
 function get(start: PModel; i: integer): PModel; begin
   result := start;
-  while (start <> nil) do begin
+  while (start <> nil) do begin // @CYCLE
     result := start;
     if (i = 0) then exit;
     start := start^.n;
@@ -148,53 +176,57 @@ function get(start: PModel; i: integer): PModel; begin
   end;
 end;
 
-function count(start: PModel): integer; begin
-  result := 0;
-  while (start <> nil) do begin
-    inc(result);
-    start := start^.n;
+function count(start: PModel): integer; var
+  acc: FoldAcc;
+  procedure disp(p: PModel; var acc: FoldAcc); begin
+    inc(acc.int[0]);
   end;
+begin
+  acc.int[0] := 0;
+  foldl(start, @disp, acc);
+  result := acc.int[0];
 end;
 
 function empty(start: PModel): boolean; begin
   result := start = nil;
 end;
 
-function pointerPos(start: PModel; needle: PModel): integer; begin
+function pos(start: PModel; needle: PModel): integer; overload; begin
   result := 0;
-  while (start <> nil) and (start <> needle) do begin
+  while (start <> nil) and (start <> needle) do begin // @CYCLE
     start := start^.n;
 
     inc(result);
   end;
 end;
 
-procedure searchDisp(pins: PModel; var acc: FoldAcc); var
-  re: TRegExpr;
-  res: SearchResult;
-  resp: PModel;
-  disp: SearchDispatcher;
-begin
-  re := TRegExpr.Create;
 
-  disp := acc.pointer[0];
-  re.InputString := disp(pins);
-  re.Expression := acc.str[0];
-  if (re.Exec) then begin
-    res := SearchResult.new(pins);
-    res.p := nil;
-    res.n := nil;
-    new(resp);
-    resp^ := res;
-    
-    if (acc.p[0] = nil) then begin
-      acc.p[0] := resp;
-    end else 
-      add(acc.p[0], res);
-  end;
-end;
 function search(database: PModel; term: string; disp: SearchDispatcher): PModel; var
   acc: FoldAcc;
+  procedure searchDisp(pins: PModel; var acc: FoldAcc); var
+    re: TRegExpr;
+    res: SearchResult;
+    resp: PModel;
+    disp: SearchDispatcher;
+  begin
+    re := TRegExpr.Create;
+
+    disp := acc.pointer[0];
+    re.InputString := disp(pins);
+    re.Expression := acc.str[0];
+    if (re.Exec) then begin
+      res := SearchResult.new(pins);
+      res.p := nil;
+      res.n := nil;
+      new(resp);
+      resp^ := res;
+    
+      if (acc.p[0] = nil) then begin
+        acc.p[0] := resp;
+      end else 
+        add(acc.p[0], res);
+    end;
+  end;
 begin
   acc.p[0] := nil;
   acc.pointer[0] := @disp;
@@ -205,16 +237,21 @@ begin
 end;
 
 function filter(start: PModel; disp: FilterDispatcher): PModel; var
+  acc: FoldAcc;
   p: PModel;
-begin
-  while (start <> nil) do begin
-    p := start;
-    start := start^.n;
 
-    if (disp(p)) then begin
-      add(result, SearchResult.new(p));
-    end;
+  procedure sdisp(p: PModel; var acc: FoldAcc); var
+    disp: FilterDispatcher;
+  begin
+    disp := acc.pointer[0];
+    if (disp(p)) then
+      add(acc.p[0], SearchResult.new(p));
   end;
+begin
+  acc.pointer[0] := @disp;
+  acc.p[0] := @start;
+
+  foldl(start, @sdisp, acc);
 end;
 
 end.

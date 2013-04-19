@@ -101,6 +101,13 @@ function selPointer(): PModel; begin
   end;
 end;
 
+function selCatPointer(): PModel; begin
+  case selCat of 
+    0: result := database;
+    1: result := selLg().clubs;
+    2: result := selCb().players;
+  end;
+end;
 { update view }
 
 procedure updateView(); var
@@ -249,15 +256,15 @@ begin
 
   
   case searchCat of
-    0: FMain.LBLeague.ItemIndex := pointerPos(
+    0: FMain.LBLeague.ItemIndex := pos(
       database, 
       (get(searchRes, searchCur)^ as SearchResult).pointer
     );
-    1: FMain.LBClub.ItemIndex := pointerPos(
+    1: FMain.LBClub.ItemIndex := pos(
       selLg().clubs,
       (get(searchRes, searchCur)^ as SearchResult).pointer
     );
-    2: FMain.LBPlayer.ItemIndex := pointerPos(
+    2: FMain.LBPlayer.ItemIndex := pos(
       selCb().players,
       (get(searchRes, searchCur)^ as SearchResult).pointer
     );
@@ -401,7 +408,7 @@ function keyboardHook(code: integer; word: word; long: longint): longint; begin
 
   { if hook dont needed }
   if 
-    (long > 0) 
+    (long < 0) 
     or 
     ((not FMain.Active) and (not FLog.Active) and (not FHelp.Active))
     or 
