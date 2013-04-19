@@ -1,5 +1,5 @@
 object FMain: TFMain
-  Left = 381
+  Left = 383
   Top = 116
   Width = 558
   Height = 137

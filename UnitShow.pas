@@ -1,5 +1,6 @@
 unit UnitShow;
 
+// @TODO: refactor entire
 interface
 
 uses
@@ -8,7 +9,7 @@ uses
 
   Models, FuncModel, StdCtrls;
 
-type
+type                                         
   TFrShow = class(TFrame)
     Edit1: TEdit;
     Edit2: TEdit;
