@@ -2,9 +2,10 @@
 unit FuncModel;
 interface
 uses
-  Dialogs, StdCtrls, Models, RegExpr, UnitLog;
+  Models, RegExpr, UnitLog, SysUtils;
 
 type
+  CloneFunc = function(ins: TObject): TObject;
   SearchDispatcher = function(pins: PModel): string;
   MapDispatcher = function(pins: PModel): PModel;
   EachDispatcher = procedure(pins: PModel); 
@@ -12,7 +13,7 @@ type
   
   FoldAcc = record // record for storing values trought fold dispatchers
     int: array[0..10] of integer;
-    str: array[0..10] of string;
+    str: array[0..10] of string;       
     p: array[0..10] of PModel;
     pointer: array[0..10] of Pointer;
     tobject: array[0..10] of TObject;
@@ -21,30 +22,35 @@ type
   FilterDispatcher = function(ins: PModel): boolean; 
 
 procedure each(start: PModel; dispatcher: EachDispatcher);
-procedure eachr(start: PModel; dispatcher: EachDispatcher);
+//procedure eachr(start: PModel; dispatcher: EachDispatcher);
 
-procedure foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc);
-procedure foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc);
+function foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc): FoldAcc; overload;
+//function foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc): FoldAcc; overload;
+function foldl(start: PModel; dispatcher: FoldDispatcher): FoldAcc; overload;
+//function foldr(start: PModel; dispatcher: FoldDispatcher): FoldAcc; overload;
 
 procedure add(var p: PModel; ins: PointerModel);
 procedure delete(var start: PModel; index: integer); overload;
 procedure delete(var start: PModel; p: PModel); overload;
+
 function search(database: PModel; term: string; disp: SearchDispatcher): PModel;
 function filter(start: PModel; disp: FilterDispatcher): PModel;
-procedure pairs(start: PModel; disp: PairsDispatcher);
+function pairs(start: PModel; disp: PairsDispatcher): PModel;
 
 function get(start: PModel; i: integer): PModel;
 function last(start: PModel): PModel;
-
+function first(start: PModel): PModel;
 function count(start: PModel): integer;
 function empty(start: PModel): boolean;
-function reverse(start: PModel): PModel;
-
 function pos(start: PModel; needle: PModel): integer; overload;
-                         
+
+function reverse(start: PModel): PModel; overload;
+function reverse(start: PModel; clnFn: CloneFunc): PModel; overload;
+
+
 { IMPLEMENTATION }
 implementation
-              
+           
 { Each implementation }
 procedure each(start: PModel; dispatcher: EachDispatcher); var
   p: PModel;
@@ -65,7 +71,7 @@ begin
 end;
 
 { Left fold implementation }
-procedure foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc); var
+function foldl(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc): FoldAcc; overload; var
   p: PModel;
 begin
   while (start <> nil) do begin // @CYCLE
@@ -74,17 +80,31 @@ begin
     
     dispatcher(p, acc);
   end;
+  result := acc;
+end;
+
+function foldl(start: PModel; dispatcher: FoldDispatcher): FoldAcc; overload; var
+  p: PModel;
+begin
+  result := foldl(start, dispatcher, result);
 end;
 
 { Right fold implementation }
-procedure foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc); var
+function foldr(start: PModel; dispatcher: FoldDispatcher; var acc: FoldAcc): FoldAcc; overload; var
   p: PModel;
 begin
   foldl(reverse(start), dispatcher, acc);
+  result := acc;
+end;
+
+function foldr(start: PModel; dispatcher: FoldDispatcher): FoldAcc; overload; var
+  p: PModel;
+begin
+  result := foldr(start, dispatcher, result);
 end;
 
 { Pairs }
-procedure pairs(start: PModel; disp: PairsDispatcher); var
+function pairs(start: PModel; disp: PairsDispatcher): PModel; var
   p1, p2: PModel;
 begin
   while (start <> nil) do begin // @CYCLE
@@ -95,14 +115,16 @@ begin
 
     disp(p1, p2);
   end;
+  result := start;
 end;
 
 procedure add(var p: PModel; ins: PointerModel); var
   ap, np: PModel;
 begin
+  //ins := modelCopy(oldins as TObject) as PointerModel;
   ins.n := nil;
   ins.p := nil;
-    
+      
   new(ap);
   ap^ := ins;
 
@@ -151,19 +173,34 @@ begin
   dispose(p);
 end;
 
-function reverse(start: PModel): PModel; var
-  acc: FoldAcc;
-  procedure disp(p: PModel; var acc: FoldAcc); begin
-    add(acc.p[0], p^);
-  end;
+function reverse(start: PModel): PModel; overload; var
+  p: PModel;
 begin
   result := nil;
-  acc.p[0] := @result;
-  foldl(last(start), @disp, acc);
+  p := last(start);
+  while (p <> nil) do begin // @CYCLE
+    add(result, copyModel(p^) as PointerModel);
+    p := p^.p;
+  end;
+end;
+
+function reverse(start: PModel; clnFn: CloneFunc): PModel; overload; var
+  p: PModel;
+begin
+  result := nil;
+  p := last(start);
+  while (p <> nil) do begin // @CYCLE
+    add(result, clnFn(p^) as PointerModel);
+    p := p^.p;
+  end;
 end;
 
 function last(start: PModel): PModel; begin
   result := get(start, -1);
+end;
+
+function first(start: PModel): PModel; begin
+  result := get(start, 0);
 end;
 
 function get(start: PModel; i: integer): PModel; begin
@@ -253,5 +290,4 @@ begin
 
   foldl(start, @sdisp, acc);
 end;
-
 end.

@@ -51,7 +51,7 @@ implementation
       end;
     end;
   begin
-    eachr(database, @DropDisp);
+    each(reverse(database), @DropDisp);
     dispose(database);
     database := nil;
   end;

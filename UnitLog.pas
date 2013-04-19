@@ -19,7 +19,7 @@ type
   procedure l(s: string); overload;
   procedure l(s: integer); overload;
   procedure l(s: word); overload;
-  procedure l(s: boolean); overload;
+  //gprocedure l(b: boolean); overload;
   procedure error(s: string); overload;
 
   function arrayToStr(a: array of string; len: integer): string; overload;
@@ -45,8 +45,8 @@ procedure log(lvl: string; str: string); begin
   );
 end;
 
-procedure l(s: boolean); overload; begin
-  if (s) then log('log', 'true') else log('log', 'false');
+procedure l(b: boolean); overload; begin
+  if (b) then log('log', 'true') else log('log', 'false');
 end;
 
 procedure l(s: string); overload; begin

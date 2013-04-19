@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Models, FuncModel, StdCtrls, 
   
-  LeagueWorkflow, PlayerWorkflow, UI, CLI, ClubWorkflow, UnitLog, UnitHelp, UnitShow, UnitFrShowLg;
+  LeagueWorkflow, PlayerWorkflow, UI, CLI, ClubWorkflow, UnitLog, UnitHelp, UnitShow, UnitFrShowLg,
+  FuncModelTest;
 
 type
   TFMain = class(TForm)
@@ -364,11 +365,6 @@ procedure hideTerm(); begin
   FMain.ETerm.Visible := false;
 end;
 
-{ create }
-procedure TFMain.FormCreate(Sender: TObject); begin
-  KBHook := SetWindowsHookEx(WH_KEYBOARD, @keyboardHook, HInstance, GetCurrentThreadId());
-end;
-
 { exec string command }
 procedure execStrCommand(str: string); var
   task: TCommandTask;
@@ -390,6 +386,7 @@ begin
       addTestData(database);
       updateView();
     end;
+    C_TEST: testFuncModel(@l);
   end;
 end;
 
@@ -476,6 +473,11 @@ begin
       hideTerm();
     end;
   end;
+end;
+   
+{ create }
+procedure TFMain.FormCreate(Sender: TObject); begin
+  KBHook := SetWindowsHookEx(WH_KEYBOARD, @keyboardHook, HInstance, GetCurrentThreadId());
 end;
 
 end.
