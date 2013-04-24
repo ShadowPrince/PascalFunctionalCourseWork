@@ -9,6 +9,7 @@ interface
   const C_TESTDATA = 5;
   const C_REMOVE = 6;
   const C_TEST = 7;
+  const C_SEARCH_AMPLUA = 8;
   type
     TCommandArgs = array[0..100] of string;
     TCommand = integer;
@@ -38,6 +39,8 @@ function recognizeCommand(s: string): TCommand; begin
     result := C_REMOVE
   else if (s = 'test') then
     result := C_TEST
+  else if (s = 'sa') then
+    result := C_SEARCH_AMPLUA
   ;
 end; 
 

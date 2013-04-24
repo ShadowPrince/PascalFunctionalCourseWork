@@ -9,27 +9,17 @@ File_6=SourceModule,'Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\FuncModel
 File_7=SourceModule,'Z:\home\sp\.wpf\Borland\Delphi7\Bin\EDU\algo\kurs\ClubWorkflow.pas',0,1,55,67,66,0,0
 
 [Modules]
-Module0=Z:\home\sp\Projects\edu\algo\kurs\UnitShow.pas
-Module1=Z:\home\sp\Projects\edu\algo\kurs\Unit1.pas
-Module2=Z:\home\sp\Projects\edu\algo\kurs\UnitLog.pas
-Module3=Z:\home\sp\Projects\edu\algo\kurs\TestCases.pas
-Module4=Z:\home\sp\Projects\edu\algo\kurs\Models.pas
+Module0=Z:\home\sp\Projects\edu\algo\kurs\UnitLog.pas
+Module1=Z:\home\sp\Projects\edu\algo\kurs\TestCases.pas
+Module2=Z:\home\sp\Projects\edu\algo\kurs\FuncModelTest.pas
+Module3=Z:\home\sp\Projects\edu\algo\kurs\FuncModel.pas
+Module4=Z:\home\sp\Projects\edu\algo\kurs\CLI.pas
 Module5=Z:\home\sp\Projects\edu\algo\kurs\LeagueWorkflow.pas
-Module6=Z:\home\sp\Projects\edu\algo\kurs\CLI.pas
-Module7=Z:\home\sp\Projects\edu\algo\kurs\FuncModelTest.pas
-Module8=Z:\home\sp\Projects\edu\algo\kurs\FuncModel.pas
+Module6=Z:\home\sp\Projects\edu\algo\kurs\Models.pas
+Module7=Z:\home\sp\Projects\edu\algo\kurs\UnitShow.pas
+Module8=Z:\home\sp\Projects\edu\algo\kurs\Unit1.pas
 Count=9
 EditWindowCount=1
-
-[Z:\home\sp\Projects\edu\algo\kurs\UnitShow.pas]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=0
-
-[Z:\home\sp\Projects\edu\algo\kurs\Unit1.pas]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=1
 
 [Z:\home\sp\Projects\edu\algo\kurs\UnitLog.pas]
 ModuleType=SourceModule
@@ -37,21 +27,6 @@ FormState=0
 FormOnTop=0
 
 [Z:\home\sp\Projects\edu\algo\kurs\TestCases.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[Z:\home\sp\Projects\edu\algo\kurs\Models.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[Z:\home\sp\Projects\edu\algo\kurs\LeagueWorkflow.pas]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[Z:\home\sp\Projects\edu\algo\kurs\CLI.pas]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
@@ -66,6 +41,31 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
+[Z:\home\sp\Projects\edu\algo\kurs\CLI.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[Z:\home\sp\Projects\edu\algo\kurs\LeagueWorkflow.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[Z:\home\sp\Projects\edu\algo\kurs\Models.pas]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[Z:\home\sp\Projects\edu\algo\kurs\UnitShow.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=0
+
+[Z:\home\sp\Projects\edu\algo\kurs\Unit1.pas]
+ModuleType=SourceModule
+FormState=1
+FormOnTop=0
+
 [Z:\home\sp\.wpf\Borland\Delphi7\Bin\ProjectGroup1.bpg]
 FormState=0
 FormOnTop=0
@@ -76,7 +76,7 @@ FormOnTop=0
 
 [EditWindow0]
 ViewCount=9
-CurrentView=7
+CurrentView=8
 View0=0
 View1=1
 View2=2
@@ -91,8 +91,8 @@ MessageView=MessageView@EditWindow0
 Create=1
 Visible=1
 State=0
-Left=258
-Top=140
+Left=253
+Top=123
 Width=789
 Height=452
 MaxLeft=0
@@ -105,27 +105,27 @@ LeftPanelData=00000400010000000C000000436F64654578706C6F726572000000000000000000
 RightPanelSize=0
 BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D6573736167655669657700040000000000000255000000000000000100000000000000000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D0300000000000001000000000D030000000000000100000000000400000B0000004D65737361676556696577FFFFFFFF
+BottomPanelData=00000400010000000B0000004D65737361676556696577000000000000000000000000000000000001000000000000000000000000FFFFFFFF
 
 [View0]
 Module=Z:\home\sp\Projects\edu\algo\kurs\TestCases.pas
 CursorX=36
 CursorY=134
-TopLine=124
+TopLine=46
 LeftCol=1
 
 [View1]
 Module=Z:\home\sp\Projects\edu\algo\kurs\FuncModel.pas
-CursorX=69
-CursorY=48
-TopLine=28
+CursorX=17
+CursorY=133
+TopLine=1
 LeftCol=1
 
 [View2]
 Module=Z:\home\sp\Projects\edu\algo\kurs\FuncModelTest.pas
 CursorX=47
 CursorY=64
-TopLine=48
+TopLine=21
 LeftCol=1
 
 [View3]
@@ -144,30 +144,30 @@ LeftCol=1
 
 [View5]
 Module=Z:\home\sp\Projects\edu\algo\kurs\Models.pas
-CursorX=23
-CursorY=8
-TopLine=1
+CursorX=29
+CursorY=90
+TopLine=76
 LeftCol=1
 
 [View6]
 Module=Z:\home\sp\Projects\edu\algo\kurs\Unit1.pas
-CursorX=6
-CursorY=311
-TopLine=301
+CursorX=48
+CursorY=4
+TopLine=1
 LeftCol=1
 
 [View7]
 Module=Z:\home\sp\Projects\edu\algo\kurs\UnitShow.pas
-CursorX=26
-CursorY=3
+CursorX=24
+CursorY=12
 TopLine=1
 LeftCol=1
 
 [View8]
 Module=Z:\home\sp\Projects\edu\algo\kurs\UnitLog.pas
-CursorX=4
-CursorY=34
-TopLine=26
+CursorX=12
+CursorY=42
+TopLine=29
 LeftCol=1
 
 [Watches]
@@ -183,8 +183,8 @@ Count=0
 Create=1
 Visible=1
 State=0
-Left=0
-Top=0
+Left=-2
+Top=9
 Width=1024
 Height=105
 MaxLeft=0
@@ -238,7 +238,7 @@ LRDockWidth=190
 Dockable=1
 SplitPos=85
 ArrangeBy=Name
-SelectedItem=OnResize
+SelectedItem=Name
 ExpandedItems=
 HiddenCategories=
 
@@ -280,11 +280,11 @@ Visible=0
 State=0
 Left=12
 Top=0
-Width=1012
+Width=769
 Height=85
 MaxLeft=0
 MaxTop=0
-ClientWidth=1012
+ClientWidth=769
 ClientHeight=85
 TBDockHeight=85
 LRDockWidth=443

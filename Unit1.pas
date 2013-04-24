@@ -39,6 +39,7 @@ var
   function selLgPointer(): PModel;
   function selCbPointer(): PModel;
   function selPlPointer(): PModel;
+  procedure actionSearchMove();
   procedure actionUp();
   procedure actionDown();
 
@@ -231,6 +232,7 @@ procedure actionSearch(term: string); begin
     1: searchRes := cbSearch(selLg().clubs, term);
     2: searchRes := plSearch(selCb().players, term);
   end;
+  actionSearchMove();
 
   l(
     'Search in ' + 
@@ -387,6 +389,13 @@ begin
       updateView();
     end;
     C_TEST: testFuncModel(@l);
+    C_SEARCH_AMPLUA: begin
+      searchRes := plSearchAmplua(selCb().players, task.args[0]);
+      searchCur := 0;
+      searchCat := selCat;
+      actionSearchMove();
+      l('Search amplua: ' + intToStr(count(searchRes)) + ' results');
+    end;
   end;
 end;
 
@@ -452,11 +461,11 @@ function keyboardHook(code: integer; word: word; long: longint): longint; begin
       FMain.ETerm.SelLength := 0;
       FMain.ETerm.SelStart := 1;
     end;
-    9: begin // tab
-      inc(selCat);
-      if (selCat > 2) then selCat := 0;
-      updateView();
-    end;
+    //9: begin // tab
+    //  inc(selCat);
+    //  if (selCat > 2) then selCat := 0;
+    //  updateView();
+    //end;
   end;
 
 end;

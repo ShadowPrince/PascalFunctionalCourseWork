@@ -5,6 +5,7 @@ interface
   procedure PlDelDisp(pins: PModel); 
   procedure plShowInBox(start: PModel; lb: TListBox);
   function plSearch(start: PModel; term: string): PModel;
+  function plSearchAmplua(start: PModel; term: string): PModel;
   procedure plAdd(club: Club; name: string);
   procedure plDelete(var start: PModel; index: integer);
     
@@ -14,7 +15,7 @@ implementation
     dispose(pins);
   end;
 
-      { plSearch }
+  { plSearch }
   function plSearch(start: PModel; term: string): PModel;
     function SearchDisp(pins: PModel): string; begin
       result := (pins^ as Player).name;
@@ -22,6 +23,15 @@ implementation
   begin
     result := search(start, term, @SearchDisp);
   end;
+
+  function plSearchAmplua(start: PModel; term: string): PModel;
+    function SearchDisp(pins: PModel): string; begin
+      result := (pins^ as Player).amplua;
+    end;
+  begin
+    result := search(start, term, @SearchDisp);
+  end;
+
    
   { plShowListInBox }
   procedure plShowInBox(start: PModel; lb: TListBox); var 

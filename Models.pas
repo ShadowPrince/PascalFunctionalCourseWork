@@ -22,6 +22,7 @@ type
   League = class(PointerModel)
     name: string;
     clubs: PModel;
+    head: string;
     
     procedure assign(lg: League);
     constructor new(name: string);
@@ -32,6 +33,12 @@ type
     name: string;
     players: PModel;
     lg: League;
+    head: string;
+    president: string;
+    captain: string;
+    sponsor: string;
+
+    trainer_name, trainer_spec, trainer_exp, trainer_qua: string;
 
     procedure assign(cb: Club);
     constructor new(name: string; lg: League);
@@ -41,6 +48,9 @@ type
   Player = class(PointerModel)
     name: string;
     club: Club;
+    amplua: string;
+    salary: string;
+    contract: string;
 
     procedure assign(pl: Player);
     constructor new(name: string; club: Club);

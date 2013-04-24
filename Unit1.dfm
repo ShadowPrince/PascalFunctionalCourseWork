@@ -1,8 +1,8 @@
 object FMain: TFMain
-  Left = 383
-  Top = 116
-  Width = 558
-  Height = 137
+  Left = 56
+  Top = 104
+  Width = 567
+  Height = 245
   Caption = 'FMain'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object FMain: TFMain
     Left = 120
     Top = 0
     Width = 121
-    Height = 97
+    Height = 217
     ItemHeight = 13
     ScrollWidth = 1
     TabOrder = 1
@@ -28,7 +28,7 @@ object FMain: TFMain
     Left = -1
     Top = 1
     Width = 121
-    Height = 97
+    Height = 216
     Color = clScrollBar
     ItemHeight = 13
     ScrollWidth = 1
@@ -37,7 +37,7 @@ object FMain: TFMain
   end
   object ETerm: TEdit
     Left = 0
-    Top = 104
+    Top = 216
     Width = 545
     Height = 21
     TabOrder = 2
@@ -49,14 +49,22 @@ object FMain: TFMain
     Left = 368
     Top = 0
     Width = 177
-    Height = 105
+    Height = 217
     TabOrder = 3
+    inherited Label4: TLabel
+      Width = 32
+      Height = 13
+    end
+    inherited Label6: TLabel
+      Width = 32
+      Height = 13
+    end
   end
   object LBPlayer: TListBox
     Left = 240
     Top = 0
     Width = 121
-    Height = 97
+    Height = 217
     ItemHeight = 13
     ScrollWidth = 1
     TabOrder = 4
