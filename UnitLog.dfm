@@ -1,5 +1,5 @@
 object FLog: TFLog
-  Left = 11
+  Left = 69
   Top = 273
   Width = 524
   Height = 281

@@ -14,7 +14,10 @@ uses
   UnitShow in 'UnitShow.pas' {FrShow: TFrame},
   PlayerWorkflow in 'PlayerWorkflow.pas',
   TestCases in 'TestCases.pas',
-  FuncModelTest in 'FuncModelTest.pas';
+  FuncModelTest in 'FuncModelTest.pas',
+  DB in 'DB.pas',
+  SQLite3 in 'SQLite3.pas',
+  SQLiteTable3 in 'SQLiteTable3.pas';
 
 {$R *.res}
 

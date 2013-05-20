@@ -17,6 +17,7 @@ type
     p: array[0..10] of PModel;
     pointer: array[0..10] of Pointer;
     tobject: array[0..10] of TObject;
+    db: TDB;
   end;
   FoldDispatcher = procedure(ins: PModel; var acc: FoldAcc);
   FilterDispatcher = function(ins: PModel): boolean; 

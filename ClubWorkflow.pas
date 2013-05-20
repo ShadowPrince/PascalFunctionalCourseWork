@@ -16,9 +16,10 @@ implementation
     cb: Club;
   begin
     cb := pins^ as Club;
-    each(cb.players, @PlDelDisp);
-    
     l('Disposed club at cbwf ' + cb.str());
+    lOffsetPlus();
+    each(cb.players, @PlDelDisp);
+    lOffsetMinus();    
     dispose(pins);
   end;
 
@@ -60,9 +61,10 @@ implementation
 
   { cbDelete }
   procedure cbDelete(var start: PModel; index: integer); begin
-    each((get(start, index)^ as Club).players, @PlDelDisp);
-
     l('Deleted cb ' + (get(start, index)^ as Club).str() + ' at cbwf');
+    lOffsetPlus();
+    each((get(start, index)^ as Club).players, @PlDelDisp);
+    lOffsetMinus();
     delete(start, index);
   end;
 end.

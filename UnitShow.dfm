@@ -28,35 +28,35 @@ object FrShow: TFrShow
   object Label4: TLabel
     Left = 0
     Top = 80
-    Width = 65
-    Height = 17
+    Width = 32
+    Height = 13
     Caption = 'Label4'
   end
   object Label5: TLabel
     Left = 0
     Top = 104
-    Width = 57
+    Width = 32
     Height = 13
     Caption = 'Label5'
   end
   object Label6: TLabel
     Left = 0
     Top = 128
-    Width = 65
-    Height = 17
+    Width = 32
+    Height = 13
     Caption = 'Label6'
   end
   object Label7: TLabel
     Left = 0
     Top = 152
-    Width = 57
+    Width = 32
     Height = 13
     Caption = 'Label7'
   end
   object Label8: TLabel
     Left = 0
     Top = 176
-    Width = 57
+    Width = 32
     Height = 13
     Caption = 'Label8'
   end

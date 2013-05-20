@@ -22,10 +22,19 @@ type
   //gprocedure l(b: boolean); overload;
   procedure error(s: string); overload;
 
+  procedure lOffsetPlus();
+  procedure lOffsetMinus();
+  procedure lOffsetReset();
+
+  procedure lTimerStart(); overload;
+  procedure lTimerStart(msg: string); overload;
+  procedure lTimerReport();
   function arrayToStr(a: array of string; len: integer): string; overload;
   
 var
   FLog: TFLog;
+  offset: integer;
+  timeStart: int64;
   
 implementation
 
@@ -34,13 +43,57 @@ uses Unit1;
 {$R *.dfm}
 
 // @TODO: time 
+function DateTimeToMillis(aDateTime: TDateTime): Int64; 
+var 
+  TimeStamp: TTimeStamp; 
+begin 
+  TimeStamp := DateTimeToTimeStamp (aDateTime); 
+  Result := Int64 (TimeStamp.Date) * MSecsPerDay + TimeStamp.Time; 
+end;
 
-procedure log(lvl: string; str: string); begin
-  FLog.MLog.Lines.Append(
-    '[' + lvl + '] (' 
+procedure lTimerStart(); overload; begin
+  timeStart := DateTimeToMillis(Now);
+end;
+
+procedure lTimerStart(msg: string); overload; begin
+  l(msg);
+  lTimerStart();
+end;
+
+procedure lTimerReport(); begin
+  l('Operation finished in ' + floatToStr((DateTimeToMillis(Now) - timeStart)/1000) + ' sec.');
+  timeStart := 0;
+end;
+
+procedure lOffsetReset(); begin
+  offset := 0;
+end;
+
+procedure lOffsetSet(o: integer); begin
+  offset := o;
+end;
+
+procedure lOffsetPlus(); begin
+  offset := offset + 4;
+end;
+
+procedure lOffsetMinus(); begin
+  offset := offset - 4;
+  if offset < 0 then offset := 0;
+end;
+
+procedure log(lvl: string; str: string); var
+  offsetStr: string;
+  i: integer;
+begin
+  offsetStr := '';
+  for i := 0 to offset do offsetStr := offsetStr + ' ';
+  FLog.MLog.Lines.Append(''
+    + '[' + lvl + '] (' 
     + intToStr(HourOf(Now)) + ':' 
     + intToStr(MinuteOf(Now)) + ':'
     + intToStr(SecondOf(Now)) + ') '
+    + offsetStr
     + str
   );
 end;
@@ -55,7 +108,7 @@ end;
 
 procedure l(s: integer); overload; begin
   log('log', intToStr(s));
-end;
+end;         
 
 procedure l(s: word); overload; begin
   log('log', intToStr(s));
@@ -75,12 +128,10 @@ begin
     result := result + ' ' + a[i];
     inc(i);
   end;
-end;
-
+end;     
 
 procedure TFLog.FormCreate(Sender: TObject); begin
-  l('Log started');
-  updateView();
+  startup();
 end;
 
 end.

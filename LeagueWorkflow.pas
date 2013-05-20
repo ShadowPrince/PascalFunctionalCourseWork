@@ -58,9 +58,10 @@ implementation
 
   { lgDelete }
   procedure lgDelete(var database: PModel; index: integer); begin
-    each((get(database, index)^ as League).clubs, @CBDelDisp);
-    
     l('Disposed lg ' + (get(database, index)^ as League).str() + ' disposed at lgwf');
+    lOffsetPlus();
+    each((get(database, index)^ as League).clubs, @CBDelDisp);
+    lOffsetMinus();    
     delete(database, index);
   end;
   

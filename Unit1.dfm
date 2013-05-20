@@ -1,5 +1,5 @@
 object FMain: TFMain
-  Left = 56
+  Left = 74
   Top = 104
   Width = 567
   Height = 245
@@ -51,14 +51,6 @@ object FMain: TFMain
     Width = 177
     Height = 217
     TabOrder = 3
-    inherited Label4: TLabel
-      Width = 32
-      Height = 13
-    end
-    inherited Label6: TLabel
-      Width = 32
-      Height = 13
-    end
   end
   object LBPlayer: TListBox
     Left = 240

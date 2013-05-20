@@ -7,7 +7,7 @@ uses
   Dialogs, Models, FuncModel, StdCtrls, 
   
   LeagueWorkflow, PlayerWorkflow, UI, CLI, ClubWorkflow, UnitLog, UnitHelp, UnitShow, UnitFrShowLg,
-  FuncModelTest;
+  FuncModelTest, DB;
 
 type
   TFMain = class(TForm)
@@ -36,12 +36,14 @@ var
   searchCat, searchCur: integer;
   function keyboardHook(code: integer; word: word; long: longint): longint; stdcall;
   procedure updateView();
+  procedure actionTestData();
   function selLgPointer(): PModel;
   function selCbPointer(): PModel;
   function selPlPointer(): PModel;
   procedure actionSearchMove();
   procedure actionUp();
   procedure actionDown();
+  procedure startup();
 
 implementation
 
@@ -140,6 +142,12 @@ begin
     exit;
 
   // push data
+  // this operation needed only if data is modified
+  // but this procedure called even if cursor moved
+  // not i'm too lazy to fix this
+  // maybe later?
+  lOffsetPlus();
+  //lTimerStart('Pushing data');
   if (selLgPointer() <> nil) then begin
     lgShowInBox(database, FMain.LBLeague);
     cbShowInBox(selLg().clubs, FMain.LBClub);
@@ -147,6 +155,8 @@ begin
       plShowInBox(selCb().players, FMain.LBPlayer);
     end;
   end;
+  //lTimerReport();
+  lOffsetMinus();
 
   // set cursor
   FMain.LBLeague.ItemIndex := selLgNum;
@@ -199,6 +209,11 @@ procedure actionSave(); begin
   updateView();
 end;
 
+procedure actionTestData(); begin
+  addTestData(database);
+  updateView();
+end;
+
 procedure actionAdd(); begin    
   case selCat of
     0: lgAdd(database, '<name>');
@@ -212,11 +227,15 @@ procedure actionAdd(); begin
 end;
 
 procedure actionDelete(); begin
+  lTimerStart('Deleting item under cursor');
+  lOffsetPlus();
   case selCat of
     0: lgDelete(database, selLgNum);
     1: cbDelete(selLg().clubs, selCbNum);
     2: plDelete(selCb().players, selPlNum);
   end;
+  lOffsetMinus();
+  lTimerReport();
   actionUp();
 
   updateView();
@@ -372,6 +391,7 @@ procedure execStrCommand(str: string); var
   task: TCommandTask;
 begin
   task := parseStr(str);
+  lOffsetPlus();
   l(
     'Command executed: ' + 
     intToStr(task.cmd) + 
@@ -382,11 +402,27 @@ begin
 
   case (task.cmd) of 
     C_EXIT: Application.Terminate;
+    C_SAVE: begin
+      l('Saving database to ' + task.args[0]);
+      lTimerStart();
+      lOffsetPlus();
+      saveDb(initDb(task.args[0]), database);
+      lOffsetMinus();
+      lTimerReport();
+    end;
+    C_OPEN: begin
+      l('Fetching database from ' + task.args[0]);
+      lTimerStart();
+      lOffsetPlus();
+      openDb(initDb(task.args[0]), database);
+      lOffsetMinus();
+      lTimerReport();
+      updateView();
+    end;
     C_SEARCH: actionSearch(task.args[0]);
     C_HELP: actionHelp();
     C_TESTDATA: begin
-      addTestData(database);
-      updateView();
+      actionTestData();
     end;
     C_TEST: testFuncModel(@l);
     C_SEARCH_AMPLUA: begin
@@ -397,6 +433,7 @@ begin
       l('Search amplua: ' + intToStr(count(searchRes)) + ' results');
     end;
   end;
+  lOffsetMinus();
 end;
 
 { keyboard hook }
@@ -445,7 +482,7 @@ function keyboardHook(code: integer; word: word; long: longint): longint; begin
     ord('K'): begin
       actionUp();
     end;
-    ord('H'): begin
+    ord('H'): begin                       
       dec(selCat);
       if (selCat < 0) then selCat := 2;
       updateView();
@@ -487,6 +524,12 @@ end;
 { create }
 procedure TFMain.FormCreate(Sender: TObject); begin
   KBHook := SetWindowsHookEx(WH_KEYBOARD, @keyboardHook, HInstance, GetCurrentThreadId());
+end;
+
+procedure startup(); begin
+  l('Log started');
+  actionTestData();
+  updateView();
 end;
 
 end.

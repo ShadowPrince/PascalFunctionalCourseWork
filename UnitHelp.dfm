@@ -1,5 +1,5 @@
 object FHelp: TFHelp
-  Left = 7
+  Left = 11
   Top = 333
   Width = 320
   Height = 257
@@ -36,7 +36,8 @@ object FHelp: TFHelp
       'o [FILE] - Open database'
       'q - Quit'
       '/ [TERM] - Search TERM in instances'
-      'help - Show this help')
+      'help - Show this help'
+      'sa [TERM] - search amplua')
     TabOrder = 0
   end
 end

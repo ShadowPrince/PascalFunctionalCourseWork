@@ -60,12 +60,20 @@ begin
   end;
 end;
 
-function TFrShow.activeWithChilds(): boolean; begin
+function TFrShow.activeWithChilds(): boolean; var
+  i: integer;
+begin
   result := false;
-  if (self.Focused) then result := true;
-  if (self.Edit1.Focused) then result := true;
-  if (self.Edit2.Focused) then result := true;
-  if (self.Edit3.Focused) then result := true;
+  if (self.Focused) then begin 
+    result := true;
+    exit;
+  end;
+  for i := 0 to self.ComponentCount - 1 do begin
+    if (self.Components[i].ClassType = TEdit) and (self.Components[i] as TEdit).Focused then begin
+      result := true;
+      break;
+    end;
+  end;
 end;
 
 procedure TFrShow.hide(); var i: integer;

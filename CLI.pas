@@ -10,6 +10,7 @@ interface
   const C_REMOVE = 6;
   const C_TEST = 7;
   const C_SEARCH_AMPLUA = 8;
+  const C_OPEN = 9;
   type
     TCommandArgs = array[0..100] of string;
     TCommand = integer;
@@ -31,6 +32,8 @@ function recognizeCommand(s: string): TCommand; begin
     result := C_SEARCH
   else if (s = 'w') or (s = 'save') then
     result := C_SAVE
+  else if (s = 'e') or (s = 'open') then
+    result := C_OPEN
   else if (s = 'help') then
     result := C_HELP
   else if (s = 'td') then

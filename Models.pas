@@ -1,7 +1,15 @@
 unit Models;
 
 interface
-type
+uses SQLite3, SQLiteTable3;
+type  
+
+  TPropList = record 
+    keys: array[0..30] of string;
+    values: array[0..30] of string;
+  end;
+
+  TDB = TSQLiteDatabase;
 
   PModel = ^ PointerModel;
   
@@ -10,6 +18,7 @@ type
     p: PModel;
 
     procedure assign(pm: PointerModel); virtual; abstract;
+    //function getProps():TPropList; virtual; abstract;
   end;
     
   SearchResult = class(PointerModel)
@@ -69,7 +78,7 @@ implementation
    begin
     self.pointer := sr.pointer;
   end;
-
+  
   constructor League.new(name: string); begin
     self.name := name;
   end;
@@ -77,6 +86,7 @@ implementation
   procedure League.assign(lg: League); begin
     self.name := lg.name;
     self.clubs := lg.clubs;
+    self.head := lg.head;
   end;
   
   function League.str(): string; begin
@@ -92,6 +102,12 @@ implementation
     self.name := cb.name;
     self.players := cb.players;
     self.lg := cb.lg;
+    self.head := cb.head;
+    self.president := cb.president;
+    self.captain := cb.captain;
+    self.trainer_name := cb.trainer_name;
+    self.trainer_exp := cb.trainer_exp;
+    self.trainer_qua := cb.trainer_qua;
   end;
 
   function Club.str(): string; begin
@@ -106,6 +122,9 @@ implementation
   procedure Player.assign(pl: Player); begin
     self.name := pl.name;
     self.club := pl.club;
+    self.amplua := pl.amplua;
+    self.salary := pl.salary;
+    self.contract := pl.contract;
   end;
 
   function Player.str(): string; begin
@@ -125,5 +144,12 @@ implementation
     else if (p1.ClassType = SearchResult) then
       (result as SearchResult).assign(p1 as SearchResult);
     ;
+  end;
+
+  function getProperties(o: TObject): TPropList; var
+    cls: TClass;
+  begin
+    //if (o.ClassType = League) then
+    //  result := (o as League).getProps();
   end;
 end.
